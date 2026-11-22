@@ -195,6 +195,11 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
 .promo b { font-size: 16px; font-weight: 800; letter-spacing: .04em; }
 .promo span { color: var(--gray); font-size: 13px; }
 .done .big { margin-top: 4px; }
+.done .tick { position: relative; }
+.done .tick .ring { position: absolute; inset: 0; border-radius: 50%; border: 3px solid #22B24C; opacity: 0; }
+.reveal { position: fixed; inset: 0; z-index: 60; background: var(--blue); display: grid; place-items: center; pointer-events: none; }
+.reveal img { width: 72px; height: auto; opacity: 0; }
+.sparks { position: fixed; inset: 0; z-index: 55; pointer-events: none; width: 100%; height: 100%; }
 
 /* Contact */
 .about { background: var(--ink); color: var(--white); border-radius: 18px; padding: 16px 18px; display: flex; gap: 14px; align-items: center; margin-bottom: 12px; font-size: 14px; }
@@ -326,7 +331,7 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
   <section class="view wrap" data-view="tayyor" hidden>
     <div class="done">
       <div class="done-head">
-        <div class="tick"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+        <div class="tick" id="done-tick"><span class="ring"></span><svg aria-hidden="true" viewBox="0 0 24 24"><path id="done-check" pathLength="1" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
         <h2 data-t="doneTitle"></h2>
         <p data-t="doneText"></p>
       </div>
@@ -744,13 +749,79 @@ $("#order-form").addEventListener("submit", async e => {
     lastOrder = { cart: { ...cart }, address, geo, phone: "+998 " + phoneEl.value, pay, preview: !ORDER_URL };
     cart = {}; saveCart(); geo = null; geoStatus.hidden = true;
     e.target.reset(); orderDone = true; renderAll(); renderReceipt();
-    location.hash = "tayyor";
+    playSuccess(btn);
   } catch (err) {
     msg.textContent = t("errSend"); msg.hidden = false;
   } finally {
     btn.disabled = false; label.textContent = t("submit");
   }
 });
+
+/* ----- Success transition: blue circle from the button, logo, then tick + metal sparks ----- */
+function playSuccess(fromEl) {
+  if (reduced()) { location.hash = "tayyor"; return; }
+  const r = fromEl.getBoundingClientRect();
+  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const maxR = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy));
+  const ov = document.createElement("div");
+  ov.className = "reveal";
+  ov.innerHTML = '<img src="rasmlar/r-oq.png" alt="">';
+  document.body.appendChild(ov);
+  const logo = ov.firstChild;
+  ov.animate([{ clipPath: `circle(0px at ${cx}px ${cy}px)` }, { clipPath: `circle(${maxR}px at ${cx}px ${cy}px)` }],
+    { duration: 560, easing: "cubic-bezier(.7,0,.25,1)", fill: "forwards" });
+  logo.animate([{ opacity: 0, transform: "scale(.4) rotate(-12deg)" }, { opacity: 1, transform: "scale(1.08) rotate(0)" }, { opacity: 1, transform: "scale(1)" }],
+    { duration: 520, delay: 260, easing: "cubic-bezier(.2,.8,.2,1)", fill: "forwards" }).onfinish = () => {
+    location.hash = "tayyor"; route();
+    logo.animate([{ transform: "scale(1)", opacity: 1 }, { transform: "scale(.6)", opacity: 0 }], { duration: 260, easing: "ease-in", fill: "forwards" });
+    ov.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 420, delay: 120, easing: "ease-out", fill: "forwards" }).onfinish = () => ov.remove();
+    animateDone(200);
+  };
+}
+
+function animateDone(d0) {
+  const tick = $("#done-tick"), check = $("#done-check"), ring = tick.querySelector(".ring");
+  tick.animate([{ transform: "scale(0)" }, { transform: "scale(1.18)", offset: .65 }, { transform: "scale(1)" }],
+    { duration: 520, delay: d0, easing: "cubic-bezier(.3,1.4,.5,1)", fill: "backwards" });
+  check.animate([{ strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDasharray: 1, strokeDashoffset: 0 }],
+    { duration: 380, delay: d0 + 360, easing: "cubic-bezier(.65,0,.35,1)", fill: "backwards" });
+  ring.animate([{ transform: "scale(1)", opacity: .7 }, { transform: "scale(2.1)", opacity: 0 }], { duration: 700, delay: d0 + 420, easing: "ease-out" });
+  setTimeout(() => sparks(tick), d0 + 380);
+  const items = [".done-head h2", ".done-head p", "#done-note", "#receipt", ".promo", ".done .big"].map(q => $(q)).filter(el => el && !el.hidden);
+  items.forEach((el, i) => el.animate([{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "none" }],
+    { duration: 480, delay: d0 + 420 + i * 90, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }));
+}
+
+function sparks(anchor) {
+  const rc = anchor.getBoundingClientRect();
+  const ox = rc.left + rc.width / 2, oy = rc.top + rc.height / 2;
+  const cv = document.createElement("canvas");
+  cv.className = "sparks";
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+  document.body.appendChild(cv);
+  const ctx = cv.getContext("2d"); ctx.scale(dpr, dpr);
+  const colors = ["#FF6B1A", "#FFB020", "#FFD166", "#1A6BFF", "#7FA8FF"];
+  const ps = Array.from({ length: 56 }, () => {
+    const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+    return { x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2.5, life: 0, max: 40 + Math.random() * 30, c: colors[(Math.random() * colors.length) | 0], w: 1.5 + Math.random() * 1.8 };
+  });
+  const step = () => {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    let alive = 0;
+    for (const p of ps) {
+      if (p.life++ > p.max) continue;
+      alive++;
+      p.vx *= .965; p.vy = p.vy * .965 + .22;
+      const px = p.x, py = p.y; p.x += p.vx; p.y += p.vy;
+      ctx.globalAlpha = 1 - p.life / p.max;
+      ctx.strokeStyle = p.c; ctx.lineWidth = p.w; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.moveTo(px - p.vx * 1.6, py - p.vy * 1.6); ctx.lineTo(p.x, p.y); ctx.stroke();
+    }
+    if (alive) requestAnimationFrame(step); else cv.remove();
+  };
+  requestAnimationFrame(step);
+}
 
 /* Success page */
 let lastOrder = null;
