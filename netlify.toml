@@ -1,0 +1,5 @@
+# Netlify sozlamalari: sayt regant-metal/sayt papkasidan, buyurtma funksiyasi regant-metal/netlify/functions dan olinadi.
+[build]
+  base = "regant-metal"
+  publish = "sayt"
+  functions = "netlify/functions"

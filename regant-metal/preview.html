@@ -59,6 +59,7 @@ button { font-family: inherit; color: inherit; }
 .banner span { color: #7FA8FF; font-size: 13px; }
 .banner .dot { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--white); display: grid; place-items: center; }
 .banner .dot img { width: 28px; height: auto; display: block; }
+.rm { display: inline-block; height: .74em; width: .77em; margin-right: .03em; background: currentColor; -webkit-mask: url("rasmlar/r.png") no-repeat left bottom / contain; mask: url("rasmlar/r.png") no-repeat left bottom / contain; }
 img.rl { height: .74em; width: auto; vertical-align: baseline; margin-right: .03em; }
 
 /* Filters */
@@ -527,7 +528,7 @@ const qtyTotal = () => Object.values(cart).reduce((a, b) => a + b, 0);
 const sum = () => Object.entries(cart).reduce((a, [id, q]) => a + (byId[id].price || 0) * q, 0);
 const hasAsk = () => Object.keys(cart).some(id => byId[id].price == null);
 
-const picHTML = p => `<img src="rasmlar/${p.cat}.jpg" alt="${catName(p.cat)}" loading="lazy"><span class="wm">${R_IMG}EGANT</span>`;
+const picHTML = p => `<img src="rasmlar/${p.cat}.jpg" alt="${catName(p.cat)}" loading="lazy"><span class="wm"><span class="rm" aria-hidden="true"></span>EGANT</span>`;
 const stepperHTML = p => `<div class="stepper"><button type="button" data-act="dec" data-id="${p.id}" aria-label="−1">−</button><output>${cart[p.id]} ${t("m")}</output><button type="button" class="plus" data-act="inc" data-id="${p.id}" aria-label="+1">+</button></div>`;
 
 function priceHTML(p) {
