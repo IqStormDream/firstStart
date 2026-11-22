@@ -22,8 +22,8 @@ export default async (req) => {
 
   const items = Array.isArray(o.items) ? o.items.slice(0, 50) : [];
   const clean = items
-    .map(i => ({ name: String(i.name || "").slice(0, 60), qty: Math.floor(Number(i.qty)), price: Number(i.price) }))
-    .filter(i => i.name && i.qty > 0 && i.qty <= 100000 && i.price >= 0);
+    .map(i => ({ name: String(i.name || "").slice(0, 120), qty: Math.floor(Number(i.qty)), price: i.price == null ? null : Number(i.price), unit: i.unit === "m" ? " m" : " ta" }))
+    .filter(i => i.name && i.qty > 0 && i.qty <= 100000 && (i.price === null || i.price >= 0));
   const phone = String(o.phone || "");
   const address = String(o.address || "").slice(0, 400);
   const loc = o.location && Number.isFinite(+o.location.lat) && Number.isFinite(+o.location.lon)
@@ -33,11 +33,11 @@ export default async (req) => {
     return new Response("Ma'lumot to'liq emas", { status: 400 });
   }
 
-  const total = clean.reduce((a, i) => a + i.qty * i.price, 0);
+  const total = clean.reduce((a, i) => a + i.qty * (i.price || 0), 0);
   const lines = [
     "🧾 <b>Yangi buyurtma</b>",
     "",
-    ...clean.map(i => `• ${esc(i.name)} × ${i.qty} = ${fmt(i.qty * i.price)} so'm`),
+    ...clean.map(i => `• ${esc(i.name)} — ${i.qty}${i.unit} = ${i.price === null ? "narxi kelishiladi" : fmt(i.qty * i.price) + " so'm"}`),
     `<b>Jami: ${fmt(total)} so'm</b>`,
     "",
     `📞 Telefon: ${phone}`,
