@@ -44,6 +44,8 @@ export default async (req) => {
     `📍 Manzil: ${address ? esc(address) : "—"}`,
     loc ? `🗺 Xarita: https://yandex.uz/maps/?pt=${loc.lon},${loc.lat}&z=17&l=map` : "",
     `💳 To'lov: ${PAY[o.payment]}`,
+    o.currency === "usd" && Number(o.usdRate) > 0
+      ? `💵 Mijoz narxlarni dollarda ko'rgan: ~$${(total / Number(o.usdRate)).toFixed(2)} (1 $ = ${fmt(o.usdRate)} so'm)` : "",
     `🌐 Til: ${o.lang === "ru" ? "ruscha" : "o'zbekcha"}`,
   ].filter(l => l !== "");
 
