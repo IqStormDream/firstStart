@@ -57,7 +57,9 @@ button { font-family: inherit; color: inherit; }
 .banner { margin-top: 10px; background: var(--ink); color: var(--white); border-radius: 18px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .banner b { display: block; font-size: 16px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
 .banner span { color: #7FA8FF; font-size: 13px; }
-.banner .dot { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--blue); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.banner .dot { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--white); display: grid; place-items: center; }
+.banner .dot img { width: 28px; height: auto; display: block; }
+img.rl { height: .74em; width: auto; vertical-align: baseline; margin-right: .03em; }
 
 /* Filters */
 .chips { display: flex; gap: 8px; margin-top: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
@@ -65,6 +67,12 @@ button { font-family: inherit; color: inherit; }
 .chip { flex: none; min-height: 38px; padding: 0 15px; border-radius: 999px; border: 1px solid var(--line); background: var(--white); color: var(--ink); font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; }
 .chip[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: var(--white); }
 
+.search { position: relative; margin-top: 12px; }
+.search svg { position: absolute; left: 14px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--gray-2); pointer-events: none; }
+.search input { width: 100%; min-height: 44px; padding: 0 14px 0 40px; font: inherit; font-size: 16px; color: var(--ink); background: var(--white); border: 1px solid var(--line); border-radius: 999px; }
+.search input::placeholder { color: var(--gray-2); }
+.search input:focus { outline: none; border-color: var(--blue); }
+.nothing { grid-column: 1 / -1; text-align: center; color: var(--gray); font-size: 14px; padding: 28px 10px; background: var(--white); border: 1px dashed var(--line); border-radius: 18px; }
 .sec-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 22px 0 12px; }
 .sec-row small { color: var(--gray); font-size: 13px; white-space: nowrap; }
 .cur { display: flex; gap: 2px; padding: 3px; border-radius: 999px; border: 1px solid var(--line); background: var(--white); flex: none; }
@@ -76,9 +84,9 @@ button { font-family: inherit; color: inherit; }
 @media (min-width: 640px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .card { background: var(--white); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; box-shadow: 0 1px 2px rgba(17,19,24,.03); }
 .pic { position: relative; aspect-ratio: 1 / .82; max-width: 100%; background: linear-gradient(160deg, var(--pic-a), var(--pic-b)); display: grid; place-items: center; overflow: hidden; }
-.pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pic > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
 .pic .ph { font-size: 12px; font-weight: 600; letter-spacing: .24em; color: var(--gray); text-transform: uppercase; }
-.pic .wm { position: absolute; right: 12px; bottom: 10px; font-size: 8.5px; font-weight: 600; letter-spacing: .28em; color: var(--gray-2); }
+.pic .wm { position: absolute; right: 10px; bottom: 8px; font-size: 8.5px; font-weight: 700; letter-spacing: .26em; color: var(--gray); }
 .body { padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .body h3 { font-size: 14.5px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
 .body .cat { color: var(--gray); font-size: 12.5px; }
@@ -89,6 +97,10 @@ button { font-family: inherit; color: inherit; }
 .price.ask { font-size: 12.5px; color: var(--gray); font-weight: 600; }
 .add { flex: none; min-height: 40px; padding: 4px 14px; border: 0; border-radius: 999px; background: var(--blue); color: var(--white); font-size: 12.5px; font-weight: 600; line-height: 1.15; cursor: pointer; display: grid; justify-items: center; }
 .add b { font-size: 14px; line-height: 1; }
+.buy.in { flex-direction: column; align-items: stretch; gap: 8px; }
+.buy.in .price span { display: inline; margin-left: 3px; }
+.buy.in .stepper { width: 100%; grid-template-columns: 36px 1fr 36px; }
+.buy.in .stepper button { width: 36px; }
 .stepper { flex: none; display: inline-grid; grid-template-columns: 32px auto 32px; align-items: center; height: 36px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }
 .stepper button { height: 34px; width: 32px; border: 0; background: transparent; font-size: 17px; font-weight: 600; cursor: pointer; line-height: 1; border-radius: 999px; }
 .stepper button.plus { background: var(--blue); color: var(--white); }
@@ -153,12 +165,29 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
 .err { color: var(--err); font-size: 13px; font-weight: 600; }
 .notice { border-radius: 14px; padding: 12px 14px; background: var(--white); border: 1px solid var(--line); font-size: 14px; }
 
-.done { text-align: center; display: grid; gap: 10px; justify-items: center; padding: 30px 8px; }
-.done .tick { width: 68px; height: 68px; border-radius: 50%; background: var(--blue); display: grid; place-items: center; color: var(--white); }
-.done .tick svg { width: 34px; height: 34px; }
+.done { padding-block: 26px 8px; display: grid; gap: 14px; }
+.done-head { text-align: center; display: grid; gap: 8px; justify-items: center; }
+.done .tick { width: 60px; height: 60px; border-radius: 50%; background: #22B24C; display: grid; place-items: center; color: var(--white); }
+.done .tick svg { width: 30px; height: 30px; }
 .done h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
-.done p { color: var(--gray); max-width: 24em; }
-.done .big { max-width: 260px; }
+.done-head p { color: var(--gray); font-size: 14.5px; max-width: 24em; }
+.receipt { background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; display: grid; gap: 12px; }
+.receipt h3 { font-size: 16px; font-weight: 700; }
+.rc-row { display: grid; gap: 1px; }
+.rc-row small { color: var(--gray); font-size: 12.5px; }
+.rc-row b { font-size: 14.5px; font-weight: 600; overflow-wrap: anywhere; }
+.rc-items { display: flex; gap: 8px; flex-wrap: wrap; }
+.rc-items img { width: 54px; height: 54px; border-radius: 10px; object-fit: cover; display: block; }
+.rc-list { display: grid; gap: 4px; font-size: 13.5px; }
+.rc-list div { display: flex; justify-content: space-between; gap: 10px; }
+.rc-list span:last-child { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rc-total { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 10px; font-weight: 800; font-size: 16px; font-variant-numeric: tabular-nums; }
+.promo { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #F7F7F7; display: grid; grid-template-columns: 42% 1fr; align-items: center; }
+.promo > img { width: 100%; height: auto; display: block; }
+.promo div { padding: 14px 16px 14px 4px; display: grid; gap: 4px; }
+.promo b { font-size: 16px; font-weight: 800; letter-spacing: .04em; }
+.promo span { color: var(--gray); font-size: 13px; }
+.done .big { margin-top: 4px; }
 
 /* Contact */
 .about { background: var(--ink); color: var(--white); border-radius: 18px; padding: 16px 18px; display: flex; gap: 14px; align-items: center; margin-bottom: 12px; font-size: 14px; }
@@ -205,7 +234,7 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#"><b>Regant Metal</b><small data-t="tagline"></small></a>
+    <a class="brand" href="#"><b><img class="rl" src="rasmlar/r.png" alt="R">egant Metal</b><small data-t="tagline"></small></a>
     <div class="lang" role="group" aria-label="Til / Язык">
       <button type="button" id="lang-uz" data-lang="uz" aria-pressed="true">UZ</button>
       <button type="button" id="lang-ru" data-lang="ru" aria-pressed="false">RU</button>
@@ -221,12 +250,16 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
         <h1 id="h1"></h1>
         <p data-t="lead"></p>
         <div class="banner">
-          <div><b>Regant Metal</b><span data-t="bannerSub"></span></div>
-          <div class="dot">25</div>
+          <div><b><img class="rl" src="rasmlar/r-oq.png" alt="R">egant Metal</b><span data-t="bannerSub"></span></div>
+          <div class="dot"><img src="rasmlar/r.png" alt=""></div>
         </div>
       </div>
 
       <div class="chips" id="chips" role="group" aria-label="Kategoriya"></div>
+      <div class="search">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15zM16 16l5 5"/></svg>
+        <input type="search" id="q" inputmode="search" autocomplete="off" enterkeyhint="search">
+      </div>
 
       <div class="sec-row">
         <small id="cur-note"></small>
@@ -236,7 +269,7 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
         </div>
       </div>
       <div class="grid" id="grid"></div>
-      <p class="hint" data-t="priceNote"></p>
+      <p class="hint"><span data-t="priceNote"></span> <span id="rate-note"></span></p>
     </div>
   </section>
 
@@ -285,26 +318,35 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
 
   <section class="view wrap" data-view="tayyor" hidden>
     <div class="done">
-      <div class="tick"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
-      <h2 data-t="doneTitle"></h2>
-      <p data-t="doneText"></p>
+      <div class="done-head">
+        <div class="tick"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+        <h2 data-t="doneTitle"></h2>
+        <p data-t="doneText"></p>
+      </div>
+      <p class="notice" id="done-note" hidden></p>
+      <div class="receipt" id="receipt"></div>
+      <div class="promo">
+        <img src="rasmlar/brend.jpg" alt="Regant industries">
+        <div><b><img class="rl" src="rasmlar/r.png" alt="R">EGANT METAL</b><span data-t="promoText"></span></div>
+      </div>
       <a class="big" href="#" data-t="doneBtn"></a>
     </div>
   </section>
 
   <section class="view wrap" data-view="aloqa" hidden aria-labelledby="h-con">
     <div class="page-head"><h2 id="h-con" data-t="contactTitle"></h2></div>
-    <div class="about"><b>25</b><p data-t="aboutText"></p></div>
+    <div class="about"><b>25</b><p data-t="aboutText" data-brand></p></div>
     <div class="box">
       <a class="row" href="tel:+998712002205"><svg aria-hidden="true"><use href="#i-phone"/></svg><span><small data-t="phoneRow"></small><b>+998 71 200 22 05</b></span></a>
+      <a class="row" href="tel:+998998463016"><svg aria-hidden="true"><use href="#i-phone"/></svg><span><small data-t="phoneRow"></small><b>+998 99 846 30 16</b></span></a>
       <a class="row" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tg"/></svg><span><small data-t="orderRow"></small><b>@nodir_sadikov</b></span></a>
-      <a class="row" href="https://t.me/Regant_metal" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tg"/></svg><span><small>Telegram</small><b>@Regant_metal</b></span></a>
+      <a class="row" href="https://t.me/regantmetal" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tg"/></svg><span><small>Telegram</small><b>@regantmetal</b></span></a>
       <a class="row" href="https://instagram.com/Regant_metal" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"/></svg><span><small>Instagram</small><b>@Regant_metal</b></span></a>
     </div>
     <div class="box">
       <h3 data-t="storesTitle"></h3>
-      <a class="row" href="https://yandex.uz/maps/?text=Izza%20bozori%20Toshkent" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg><span><b data-t="a1"></b><small data-t="map"></small></span></a>
-      <a class="row" href="https://yandex.uz/maps/?text=Ibn%20Sino%20Toshkent" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg><span><b data-t="a2"></b><small data-t="map"></small></span></a>
+      <a class="row" href="https://maps.app.goo.gl/2JMrCF7TDMrQjHrj9" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg><span><b data-t="a1"></b><small data-t="map"></small></span></a>
+      <a class="row" href="https://maps.app.goo.gl/STktoqpVLDuJADPv6" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg><span><b data-t="a2"></b><small data-t="map"></small></span></a>
     </div>
   </section>
 </main>
@@ -319,10 +361,13 @@ textarea:focus, input[type="tel"]:focus { border-color: var(--blue); outline: no
 
 <script>
 /* ===== SOZLAMALAR ===== */
-const USD_RATE = 12800; // 1 $ necha so'm
+/* Dollar kursi: Markaziy bank (cbu.uz) dan har safar sayt ochilganda olinadi. Ulanmasa, quyidagi oxirgi ma'lum kurs ishlatiladi. */
+let USD_RATE = 12004.48, RATE_DATE = "21.11.2026";
 /* Narxlar ro'yxati (Excel fayldan). Har bir qator: [o'lcham, devor yoki marka, 1 metr narxi (null = so'raladi), uzunligi metrda] */
 const DATA = {"armatura":[["Ø8","А400",3700,11.7],["Ø10","А400",null,11.7],["Ø12","А400",null,11.7],["Ø14","А400",null,11.7],["Ø16","А400",null,11.7],["Ø18","А400",null,11.7],["Ø20","А400",null,11.7],["Ø22","А400",null,11.7],["Ø25","А400",null,11.7],["Ø28","А400",null,11.7],["Ø32","А400",null,11.7]],"profil":[["20×20*1,5",1.5,9500,8],["20×20*1,7",1.7,10500,8],["30×20*1,5",1.5,12000,10],["30×20*1,7",1.7,12500,10],["30×20*2",2,14000,10],["30×30*1,5",1.5,14500,10],["30×30*1,7",1.7,15500,10],["30×30*2",2,17500,10],["40×20*1,5",1.5,14500,10],["40×20*1,7",1.7,15500,10],["40×20*2",2,17500,10],["40×25*2",2,19500,10],["40×40*1,5",1.5,19500,10],["40×40*1,7",1.7,22000,10],["40×40*2",2,24000,10],["40×40*3",3,34000,10],["50×30*2",2,24000,10],["50×50*2",2,30000,10],["60×30*2",2,27500,10],["60×40*1,5",1.5,24000,10],["60×40*1,7",1.7,27000,10],["60×40*2",2,30000,10],["60×40*2,5",2.5,37000,10],["60×40*3",3,43000,10],["60×60*2",2,37000,10],["60×60*3",3,53000,10],["80×40*2",2,37000,10],["80×40*3",3,53000,10],["80×60*1,7",1.7,38000,10],["80×60*2",2,44000,10],["80×60*3",3,63000,10],["80×80*2",2,50000,12],["80×80*3",3,73000,10],["100×50*2",2,46000,12],["100×50*3",3,65000,12],["100×100*2",2,62000,12],["100×100*3",3,88000,12],["100×100*4",4,118000,12],["120×80*2",2,62000,12],["120×80*3",3,88000,12],["120×80*4",4,118000,12],["150×150*4",4,185000,12],["200×200*5",5,340000,12]],"truba":[["Ø15*1,5",1.5,8500,8],["Ø15*2",2,10000,8],["Ø20*2",2,13000,10],["Ø25*2",2,15500,10],["Ø25*3",3,22000,10],["Ø32*2",2,20000,10],["Ø32*3",3,28000,10],["Ø40*2",2,23500,10],["Ø40*3",3,34000,10],["Ø50*2",2,28000,10],["Ø50*3",3,43000,10],["Ø76*2",2,38000,10],["Ø76*3",3,54000,12],["Ø89*2",2,44000,12],["Ø102*1,7",1.7,45000,12],["Ø102*2",2,51000,12],["Ø102*3",3,73000,12],["Ø114*3",3,82000,12],["Ø159*3",3,117000,12],["Ø159*4",4,155000,12],["Ø219*4",4,225000,12]],"ugolok":[["40×40*3",3,16000,11.75],["50×50*3,5",3.5,24000,11.75],["50×50*4",4,27000,11.75],["50×50*5",5,33000,11.75],["63×63*4",4,36000,11.75],["63×63*5",5,42000,11.75]]};
 const PHONE_SHOW = "+998 71 200 22 05";
+const R_IMG = '<img class="rl" src="rasmlar/r.png" alt="R">';
+const brandify = (txt, onDark) => String(txt).replace(/R(egant|EGANT)/g, (m, rest) => (onDark ? R_IMG.replace("r.png", "r-oq.png") : R_IMG) + rest);
 
 const CATS = [
   { id: "armatura", uz: "Armatura", ru: "Арматура" },
@@ -335,11 +380,16 @@ const T = {
   uz: {
     tagline: "Metall mahsulotlari",
     eyebrow: "25 yillik tajriba",
-    h1: ["Biz bilan", "tezroq."],
+    h1: ["Ishonchli", "hamkor."],
     lead: "Armatura, profil, truba va ugolok. Barcha o'lchamdagi metall mahsulotlari bir joyda.",
     bannerSub: "Sifat · Halol narx · Tez yetkazish",
-    noteUzs: "Narxlar so'mda, 1 metr uchun", noteUsd: "Narxlar dollarda, 1 metr uchun",
+    noteUzs: "Narxlar so'mda, 1 metr uchun", noteUsd: r => "1 $ = " + r + " so'm",
     priceNote: "Narxlar o'zgarishi mumkin. Aniq narxni telefonda aytib beramiz.",
+    rateNote: d => "Dollar kursi Markaziy bank bo'yicha (" + d + "), sayt ochilganda yangilanadi.",
+    searchPh: c => c + " qidirish, masalan: ", nothing: "Hech narsa topilmadi. O'lchamni boshqacha yozib ko'ring.",
+    rcTitle: "Buyurtma ma'lumotlari", rcAddr: "Manzil", rcGeo: "Joylashuv yuborildi", rcPhone: "Telefon", rcPay: "To'lov turi", rcItems: "Mahsulotlar",
+    promoText: "25 yildan beri ishonchli hamkoringiz",
+    previewDone: "Sinov rejimi: bu buyurtma botga yuborilmadi. Netlify'ga joylangandan keyin buyurtmalar Telegramga keladi.",
     sum: "so'm", add: "Qo'shish", ask: "Narxini so'rang",
     wall: "Devor", m: "m", meter: "metr",
     tabProducts: "Mahsulotlar", tabCart: "Savatcha", tabContact: "Aloqa",
@@ -367,9 +417,9 @@ const T = {
     errPay: "To'lov turini tanlang.",
     errSend: "Buyurtma yuborilmadi. Internetni tekshirib, qayta bosing yoki qo'ng'iroq qiling: " + PHONE_SHOW,
     previewMsg: "Bu sinov ko'rinishi, shuning uchun buyurtma yuborilmadi. Sayt Netlify'ga joylanib, botga ulangandan keyin buyurtmalar Telegramga keladi.",
-    doneTitle: "Buyurtmangiz qabul qilindi",
-    doneText: "Tez orada siz bilan telefon orqali bog'lanamiz.",
-    doneBtn: "Bosh sahifaga",
+    doneTitle: "Buyurtma qabul qilindi",
+    doneText: "Xaridingiz uchun rahmat, tez orada siz bilan bog'lanamiz.",
+    doneBtn: "Xaridlarni davom ettirish",
     contactTitle: "Aloqa",
     aboutText: "Regant Metal 25 yildan beri metall mahsulotlari bilan savdo qiladi.",
     phoneRow: "Telefon", orderRow: "Buyurtma uchun",
@@ -378,11 +428,16 @@ const T = {
   ru: {
     tagline: "Металлопрокат",
     eyebrow: "25 лет опыта",
-    h1: ["С нами", "быстрее."],
+    h1: ["Надёжный", "партнёр."],
     lead: "Арматура, профиль, труба и уголок. Металлопрокат всех размеров в одном месте.",
     bannerSub: "Качество · Честная цена · Быстрая доставка",
-    noteUzs: "Цены в сумах, за 1 метр", noteUsd: "Цены в долларах, за 1 метр",
+    noteUzs: "Цены в сумах, за 1 метр", noteUsd: r => "1 $ = " + r + " сум",
     priceNote: "Цены могут меняться. Точную цену скажем по телефону.",
+    rateNote: d => "Курс доллара по Центробанку (" + d + "), обновляется при открытии сайта.",
+    searchPh: c => "Поиск: " + c.toLowerCase() + ", например ", nothing: "Ничего не найдено. Попробуйте написать размер иначе.",
+    rcTitle: "Данные заказа", rcAddr: "Адрес", rcGeo: "Местоположение отправлено", rcPhone: "Телефон", rcPay: "Способ оплаты", rcItems: "Товары",
+    promoText: "Ваш надёжный партнёр уже 25 лет",
+    previewDone: "Пробный режим: этот заказ не отправлен в бот. После размещения на Netlify заказы будут приходить в Telegram.",
     sum: "сум", add: "Добавить", ask: "Цену уточняйте",
     wall: "Стенка", m: "м", meter: "м",
     tabProducts: "Товары", tabCart: "Корзина", tabContact: "Контакты",
@@ -410,9 +465,9 @@ const T = {
     errPay: "Выберите способ оплаты.",
     errSend: "Заказ не отправлен. Проверьте интернет и нажмите ещё раз или позвоните: " + PHONE_SHOW,
     previewMsg: "Это пробный просмотр, поэтому заказ не отправлен. Когда сайт будет на Netlify и подключён к боту, заказы будут приходить в Telegram.",
-    doneTitle: "Ваш заказ принят",
-    doneText: "Скоро мы свяжемся с вами по телефону.",
-    doneBtn: "На главную",
+    doneTitle: "Заказ принят",
+    doneText: "Спасибо за покупку, скоро мы с вами свяжемся.",
+    doneBtn: "Продолжить покупки",
     contactTitle: "Контакты",
     aboutText: "Regant Metal уже 25 лет торгует металлопрокатом.",
     phoneRow: "Телефон", orderRow: "Для заказа",
@@ -439,7 +494,22 @@ for (const c of CATS) {
 const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
 
 const ORDER_URL = document.querySelector('meta[name="order-endpoint"]')?.content || "";
-let lang = "uz", cur = "uzs", cat = "armatura";
+let lang = "uz", cur = "uzs", cat = "armatura", query = "";
+const EXAMPLES = { armatura: "Ø12", truba: "32x2", profil: "30x20x1,7", ugolok: "50x50x4" };
+const nums = s => (String(s).toLowerCase().replace(/,/g, ".").match(/\d+(\.\d+)?/g) || []);
+function matches(p, q) {
+  const qn = nums(q); if (!qn.length) return true;
+  const pn = nums(p.dims);
+  for (let i = 0; i + qn.length <= pn.length; i++) {
+    let ok = true;
+    for (let j = 0; j < qn.length; j++) {
+      const last = j === qn.length - 1;
+      if (last ? !(pn[i + j] === qn[j] || (pn[i + j].startsWith(qn[j]) && !/[x×х*\s]$/i.test(q.trim()))) : pn[i + j] !== qn[j]) { ok = false; break; }
+    }
+    if (ok) return true;
+  }
+  return false;
+}
 const t = k => T[lang][k];
 const $ = s => document.querySelector(s);
 const fmtInt = n => Math.round(n).toLocaleString("ru-RU").replace(/[  ]/g, " ");
@@ -457,7 +527,7 @@ const qtyTotal = () => Object.values(cart).reduce((a, b) => a + b, 0);
 const sum = () => Object.entries(cart).reduce((a, [id, q]) => a + (byId[id].price || 0) * q, 0);
 const hasAsk = () => Object.keys(cart).some(id => byId[id].price == null);
 
-const picHTML = p => p.img ? `<img src="${p.img}" alt="">` : `<span class="ph">${catName(p.cat)}</span><span class="wm">REGANT</span>`;
+const picHTML = p => `<img src="rasmlar/${p.cat}.jpg" alt="${catName(p.cat)}" loading="lazy"><span class="wm">${R_IMG}EGANT</span>`;
 const stepperHTML = p => `<div class="stepper"><button type="button" data-act="dec" data-id="${p.id}" aria-label="−1">−</button><output>${cart[p.id]} ${t("m")}</output><button type="button" class="plus" data-act="inc" data-id="${p.id}" aria-label="+1">+</button></div>`;
 
 function priceHTML(p) {
@@ -474,13 +544,15 @@ function renderChips() {
 }
 
 function renderGrid() {
-  $("#grid").innerHTML = PRODUCTS.filter(p => p.cat === cat).map(p => `
+  const list = PRODUCTS.filter(p => p.cat === cat && matches(p, query));
+  if (!list.length) { $("#grid").innerHTML = `<p class="nothing">${t("nothing")}</p>`; return; }
+  $("#grid").innerHTML = list.map(p => `
     <article class="card" data-id="${p.id}">
       <div class="pic">${picHTML(p)}</div>
       <div class="body">
         <h3>${p.name(lang)}</h3>
         <span class="cat">${p.sub(lang)}</span>
-        <div class="buy">
+        <div class="buy${cart[p.id] ? " in" : ""}">
           ${priceHTML(p)}
           ${cart[p.id] ? stepperHTML(p) : `<button type="button" class="add" data-act="add" data-id="${p.id}"><b>+</b>${t("add")}</button>`}
         </div>
@@ -519,7 +591,9 @@ function renderCounts(bump) {
 function renderAll() {
   renderChips(); renderGrid(); renderCart(); renderCounts(false);
   $("#co-sum").textContent = `${t("pcs")(count())} · ${money(sum())}`;
-  $("#cur-note").textContent = cur === "usd" ? t("noteUsd") : t("noteUzs");
+  $("#cur-note").textContent = cur === "usd" ? t("noteUsd")(fmtInt(USD_RATE)) : t("noteUzs");
+  $("#rate-note").textContent = t("rateNote")(RATE_DATE);
+  setSearchPh();
   document.querySelectorAll(".cur button").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.cur === cur)));
 }
 
@@ -555,7 +629,7 @@ function plusOne(target) {
 
 document.addEventListener("click", e => {
   const chip = e.target.closest(".chip");
-  if (chip) { cat = chip.dataset.cat; renderChips(); renderGrid(); return; }
+  if (chip) { cat = chip.dataset.cat; query = ""; $("#q").value = ""; setSearchPh(); renderChips(); renderGrid(); return; }
   const cb = e.target.closest(".cur button");
   if (cb) { cur = cb.dataset.cur; try { localStorage.setItem("regant-cur", cur); } catch (err) {} renderAll(); return; }
   const btn = e.target.closest("button[data-act]");
@@ -599,12 +673,15 @@ function setLang(l) {
   document.querySelectorAll("[data-t]").forEach(el => { const v = T[l][el.dataset.t]; if (typeof v === "string") el.textContent = v; });
   document.querySelectorAll("[data-tp]").forEach(el => el.placeholder = T[l][el.dataset.tp]);
   document.querySelectorAll("[data-ta]").forEach(el => el.setAttribute("aria-label", T[l][el.dataset.ta]));
+  document.querySelectorAll("[data-brand]").forEach(el => el.innerHTML = brandify(T[l][el.dataset.t], true));
   const h = $("#h1"); h.textContent = ""; h.append(T[l].h1[0], document.createElement("br"), T[l].h1[1]);
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === l)));
   try { localStorage.setItem("regant-lang", l); } catch (e) {}
   renderAll();
   if (geo) showGeoOk();
+  if (lastOrder) renderReceipt();
 }
+function setSearchPh() { const el = $("#q"); if (el) el.placeholder = t("searchPh")(catName(cat)) + EXAMPLES[cat]; }
 document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
 /* Checkout */
@@ -646,8 +723,6 @@ $("#order-form").addEventListener("submit", async e => {
   showErr("#err-pay", badPay, "errPay");
   const msg = $("#send-msg"); msg.hidden = true;
   if (badAddr || badPhone || badPay) { document.querySelector(".err:not([hidden])")?.closest(".field")?.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
-  if (!ORDER_URL) { msg.textContent = t("previewMsg"); msg.hidden = false; return; }
-
   const btn = $("#submit-btn"), label = btn.querySelector("span");
   btn.disabled = true; label.textContent = t("sending");
   const order = {
@@ -655,10 +730,13 @@ $("#order-form").addEventListener("submit", async e => {
     total: sum(), address, location: geo, phone: "+998" + digits, payment: pay, lang, currency: cur, usdRate: USD_RATE,
   };
   try {
-    const res = await fetch(ORDER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(order) });
-    if (!res.ok) throw new Error(res.status);
+    if (ORDER_URL) {
+      const res = await fetch(ORDER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(order) });
+      if (!res.ok) throw new Error(res.status);
+    }
+    lastOrder = { cart: { ...cart }, address, geo, phone: "+998 " + phoneEl.value, pay, preview: !ORDER_URL };
     cart = {}; saveCart(); geo = null; geoStatus.hidden = true;
-    e.target.reset(); orderDone = true; renderAll();
+    e.target.reset(); orderDone = true; renderAll(); renderReceipt();
     location.hash = "tayyor";
   } catch (err) {
     msg.textContent = t("errSend"); msg.hidden = false;
@@ -666,6 +744,34 @@ $("#order-form").addEventListener("submit", async e => {
     btn.disabled = false; label.textContent = t("submit");
   }
 });
+
+/* Success page */
+let lastOrder = null;
+function renderReceipt() {
+  const o = lastOrder; if (!o) return;
+  const ids = Object.keys(o.cart);
+  const total = ids.reduce((a, id) => a + (byId[id].price || 0) * o.cart[id], 0);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const cats = [...new Set(ids.map(id => byId[id].cat))];
+  $("#receipt").innerHTML = `
+    <h3>${t("rcTitle")}</h3>
+    <div class="rc-row"><small>${t("rcAddr")}</small><b>${o.address ? esc(o.address) : ""}${o.address && o.geo ? " · " : ""}${o.geo ? t("rcGeo") : ""}</b></div>
+    <div class="rc-row"><small>${t("rcPhone")}</small><b>${esc(o.phone)}</b></div>
+    <div class="rc-row"><small>${t("rcPay")}</small><b>${t("pay_" + o.pay)}</b></div>
+    <div class="rc-row"><small>${t("rcItems")}</small></div>
+    <div class="rc-items">${cats.map(c => `<img src="rasmlar/${c}.jpg" alt="${catName(c)}">`).join("")}</div>
+    <div class="rc-list">${ids.map(id => `<div><span>${byId[id].name(lang)} · ${o.cart[id]} ${t("m")}</span><span>${byId[id].price == null ? t("ask") : money(byId[id].price * o.cart[id])}</span></div>`).join("")}</div>
+    <div class="rc-total"><span>${t("total")}</span><span>${money(total)}</span></div>`;
+  const n = $("#done-note"); n.hidden = !o.preview; n.textContent = t("previewDone");
+}
+
+$("#q").addEventListener("input", e => { query = e.target.value; renderGrid(); });
+
+/* Live USD rate from the Central Bank of Uzbekistan */
+fetch("https://cbu.uz/uz/arkhiv-kursov-valyut/json/USD/")
+  .then(r => r.json())
+  .then(d => { const r = parseFloat(d?.[0]?.Rate); if (r > 0) { USD_RATE = r; RATE_DATE = d[0].Date || RATE_DATE; renderAll(); } })
+  .catch(() => {});
 
 /* Start */
 let savedLang = null;
