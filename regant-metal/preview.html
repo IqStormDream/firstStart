@@ -1,0 +1,330 @@
+<title>Regant Metal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one calm column; steel-blue header band, price-list cards, big buttons for older readers */
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --ink: #16212b;
+  --muted: #4a5866;
+  --line: #d5dce3;
+  --steel: #1e3447;
+  --steel-ink: #f2f5f8;
+  --accent: #b8460f;
+  --accent-ink: #ffffff;
+  --tg: #1f7fc4;
+  --font-display: "Oswald", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11181f; --surface: #19232d; --ink: #eef2f6; --muted: #aab6c2; --line: #2c3a47;
+    --steel: #0c1319; --steel-ink: #eef2f6; --accent: #e06a2c; --accent-ink: #160a03; --tg: #4aa6e8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11181f; --surface: #19232d; --ink: #eef2f6; --muted: #aab6c2; --line: #2c3a47;
+  --steel: #0c1319; --steel-ink: #eef2f6; --accent: #e06a2c; --accent-ink: #160a03; --tg: #4aa6e8;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 19px; line-height: 1.6;
+  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+}
+.wrap {
+  max-width: 1040px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: .01em; }
+p { margin: 0; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+/* Header */
+.top { background: var(--steel); color: var(--steel-ink); margin-top: calc(-1 * env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 14px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo svg { width: 38px; height: 38px; flex: none; }
+.logo b { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.lang { display: flex; border: 2px solid rgba(255,255,255,.35); border-radius: 8px; overflow: hidden; }
+.lang button {
+  font: 600 1rem var(--font-body); padding: 8px 14px; min-height: 44px;
+  background: transparent; color: var(--steel-ink); border: 0; cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--steel-ink); color: var(--steel); }
+
+/* Hero */
+.hero { background: var(--steel); color: var(--steel-ink); }
+.hero .wrap { padding-block: 28px 44px; display: grid; gap: 22px; }
+.hero h1 { font-size: clamp(2.1rem, 6vw, 3.4rem); text-transform: uppercase; }
+.hero p { font-size: 1.2rem; max-width: 34em; opacity: .92; }
+.badge {
+  display: inline-flex; align-items: baseline; gap: 10px; align-self: start; justify-self: start;
+  border: 2px solid rgba(255,255,255,.3); border-radius: 10px; padding: 8px 16px;
+}
+.badge strong { font-family: var(--font-display); font-size: 2rem; line-height: 1; }
+.btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 60px; padding: 0 26px; border-radius: 10px;
+  font: 700 1.15rem var(--font-body); text-decoration: none; border: 0; cursor: pointer;
+}
+.btn svg { width: 24px; height: 24px; flex: none; }
+.btn-main { background: var(--accent); color: var(--accent-ink); }
+.btn-light { background: var(--steel-ink); color: var(--steel); }
+.btn-tg { background: var(--tg); color: #fff; }
+
+/* Sections */
+section { padding-block: 48px; }
+.sec-head { display: grid; gap: 6px; margin-bottom: 24px; }
+.sec-head h2 { font-size: clamp(1.8rem, 4.5vw, 2.4rem); text-transform: uppercase; }
+.sec-head p { color: var(--muted); }
+
+/* Products */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 20px; display: grid; gap: 14px; align-content: start;
+}
+.card svg { width: 76px; height: 76px; color: var(--steel); }
+:root[data-theme="dark"] .card svg { color: var(--muted); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card svg { color: var(--muted); } }
+.card h3 { font-size: 1.6rem; text-transform: uppercase; }
+.price { display: grid; gap: 2px; border-top: 1px dashed var(--line); padding-top: 12px; }
+.price small { color: var(--muted); font-size: .95rem; }
+.price b { font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.price b span { font-size: 1.1rem; color: var(--ink); margin-left: 4px; }
+.card .btn { min-height: 52px; font-size: 1.05rem; width: 100%; }
+.note { margin-top: 18px; color: var(--muted); font-size: 1rem; }
+
+/* About */
+.about { background: var(--surface); border-block: 1px solid var(--line); }
+.about-grid { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
+.years { font-family: var(--font-display); font-size: clamp(5rem, 16vw, 8rem); line-height: .9; color: var(--accent); font-weight: 600; }
+.years small { display: block; font-size: 1.3rem; color: var(--ink); text-transform: uppercase; letter-spacing: .04em; margin-top: 6px; }
+.about ul { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 10px; }
+.about li { display: flex; gap: 12px; align-items: flex-start; }
+.about li svg { width: 26px; height: 26px; flex: none; color: var(--accent); margin-top: 2px; }
+
+/* Contacts */
+.contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 14px; align-content: start; }
+.box h3 { font-size: 1.4rem; text-transform: uppercase; }
+.row { display: flex; align-items: center; gap: 14px; text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; }
+.row svg { width: 28px; height: 28px; flex: none; color: var(--accent); }
+.row span { display: grid; line-height: 1.3; }
+.row small { color: var(--muted); font-size: .9rem; }
+.row b { font-size: 1.2rem; font-weight: 600; }
+.addr { display: grid; gap: 4px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.addr:last-of-type { border-bottom: 0; }
+.addr b { font-size: 1.2rem; }
+.addr a { color: var(--tg); font-weight: 600; }
+
+footer { background: var(--steel); color: var(--steel-ink); }
+footer .wrap { padding-block: 24px; font-size: 1rem; opacity: .85; }
+
+/* Bottom action bar (always visible, easy for older visitors) */
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  box-shadow: 0 -6px 18px rgba(0,0,0,.08);
+}
+.bar .in { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bar .btn { min-height: 56px; padding: 0 12px; font-size: 1.05rem; }
+
+@media (max-width: 600px) {
+  .about-grid { grid-template-columns: 1fr; gap: 12px; }
+  .btns .btn { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: transform .12s ease, filter .12s ease; }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:active { transform: translateY(1px); }
+}
+</style>
+
+<!-- Shared icon symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></symbol>
+  <symbol id="i-tg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.1 1.8 11.6c-1-.3-1-1 .2-1.5L20.5 3c.9-.3 1.6.2 1.4 1.3z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><path fill="currentColor" d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm4.9-8.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2zM12 3c-2.4 0-2.7 0-3.7.1-3.2.1-5 1.9-5.1 5.1C3 9.3 3 9.6 3 12s0 2.7.1 3.7c.1 3.2 1.9 5 5.1 5.1 1 .1 1.3.1 3.8.1s2.7 0 3.7-.1c3.2-.1 5-1.9 5.1-5.1.1-1 .1-1.3.1-3.7s0-2.7-.1-3.7c-.1-3.2-1.9-5-5.1-5.1C14.7 3 14.4 3 12 3zm0 1.6c2.4 0 2.7 0 3.6.1 2.4.1 3.5 1.2 3.6 3.6.1 1 .1 1.2.1 3.7s0 2.7-.1 3.6c-.1 2.4-1.2 3.5-3.6 3.6-1 .1-1.2.1-3.6.1s-2.7 0-3.7-.1c-2.4-.1-3.5-1.2-3.6-3.6-.1-1-.1-1.2-.1-3.6s0-2.7.1-3.7c.1-2.4 1.2-3.5 3.6-3.6 1-.1 1.3-.1 3.7-.1z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#b8460f"/><path d="M11 29V11h10a6 6 0 0 1 1.6 11.8L28 29h-5.4l-4.8-6H16v6zm5-10.4h4.6a2 2 0 0 0 0-4H16z" fill="#fff"/></svg>
+      <b>Regant Metal</b>
+    </a>
+    <div class="lang" role="group" aria-label="Til / Язык">
+      <button type="button" id="lang-uz" data-lang="uz" aria-pressed="true">UZ</button>
+      <button type="button" id="lang-ru" data-lang="ru" aria-pressed="false">RU</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="badge"><strong>25</strong><span data-t="badge">yillik tajriba</span></div>
+    <h1 data-t="h1">Toshkentda barcha turdagi metall mahsulotlari</h1>
+    <p data-t="lead">Armatura, profil, truba, ugolok va boshqa metall mahsulotlari. Ishonchli sifat, halol narx.</p>
+    <div class="btns">
+      <a class="btn btn-main" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener">
+        <svg aria-hidden="true"><use href="#i-tg"/></svg><span data-t="order">Buyurtma berish</span>
+      </a>
+      <a class="btn btn-light" href="tel:+998712002205">
+        <svg aria-hidden="true"><use href="#i-phone"/></svg><span>71 200 22 05</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section id="mahsulotlar">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-t="prodTitle">Mahsulotlar va narxlar</h2>
+        <p data-t="prodSub">Kerakli mahsulotni tanlang va "Buyurtma" tugmasini bosing.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="22" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="40" cy="40" r="10" fill="currentColor"/><path d="M40 12v6M40 62v6M12 40h6M62 40h6M20 20l4 4M56 56l4 4M60 20l-4 4M24 56l-4 4" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+          <h3 data-t="p1">Armatura</h3>
+          <div class="price"><small data-t="priceLbl">Narxi</small><b>3 700<span data-t="sum">so'm</span></b></div>
+          <a class="btn btn-main" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener"><span data-t="orderShort">Buyurtma</span></a>
+        </article>
+        <article class="card">
+          <svg viewBox="0 0 80 80" aria-hidden="true"><rect x="16" y="16" width="48" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="8"/></svg>
+          <h3 data-t="p2">Profil</h3>
+          <div class="price"><small data-t="priceLbl">Narxi</small><b>9 500<span data-t="sum">so'm</span></b></div>
+          <a class="btn btn-main" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener"><span data-t="orderShort">Buyurtma</span></a>
+        </article>
+        <article class="card">
+          <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="25" fill="none" stroke="currentColor" stroke-width="8"/></svg>
+          <h3 data-t="p3">Truba</h3>
+          <div class="price"><small data-t="priceLbl">Narxi</small><b>8 500<span data-t="sum">so'm</span></b></div>
+          <a class="btn btn-main" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener"><span data-t="orderShort">Buyurtma</span></a>
+        </article>
+        <article class="card">
+          <svg viewBox="0 0 80 80" aria-hidden="true"><path d="M18 14v48h48v-9H27V14z" fill="currentColor"/></svg>
+          <h3 data-t="p4">Ugolok</h3>
+          <div class="price"><small data-t="priceLbl">Narxi</small><b>16 000<span data-t="sum">so'm</span></b></div>
+          <a class="btn btn-main" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener"><span data-t="orderShort">Buyurtma</span></a>
+        </article>
+      </div>
+      <p class="note" data-t="note">Narxlar o'zgarishi mumkin. Aniq narx va boshqa mahsulotlar uchun qo'ng'iroq qiling yoki Telegramda yozing.</p>
+    </div>
+  </section>
+
+  <section class="about" id="biz-haqimizda">
+    <div class="wrap about-grid">
+      <div class="years">25<small data-t="yearsLbl">yil</small></div>
+      <div>
+        <div class="sec-head" style="margin-bottom:8px">
+          <h2 data-t="aboutTitle">Biz haqimizda</h2>
+        </div>
+        <p data-t="aboutText">Regant Metal 25 yildan beri Toshkentda metall mahsulotlari bilan savdo qiladi. Quruvchilar, ustalar va oddiy xaridorlar bizga ishonadi.</p>
+        <ul>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span data-t="f1">Barcha turdagi metall mahsulotlari bir joyda</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span data-t="f2">Ikki do'kon: Izza bozori va Ibn Sino</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span data-t="f3">Telefon yoki Telegram orqali tez buyurtma</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="aloqa">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-t="contactTitle">Aloqa va manzillar</h2></div>
+      <div class="contacts">
+        <div class="box">
+          <h3 data-t="contactBox">Biz bilan bog'laning</h3>
+          <a class="row" href="tel:+998712002205"><svg aria-hidden="true"><use href="#i-phone"/></svg><span><small data-t="phoneLbl">Telefon</small><b>+998 71 200 22 05</b></span></a>
+          <a class="row" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tg"/></svg><span><small data-t="orderLbl">Buyurtma uchun</small><b>@nodir_sadikov</b></span></a>
+          <a class="row" href="https://t.me/Regant_metal" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tg"/></svg><span><small>Telegram</small><b>@Regant_metal</b></span></a>
+          <a class="row" href="https://instagram.com/Regant_metal" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"/></svg><span><small>Instagram</small><b>@Regant_metal</b></span></a>
+        </div>
+        <div class="box">
+          <h3 data-t="addrTitle">Do'konlarimiz</h3>
+          <div class="addr">
+            <b data-t="a1">1-do'kon: Izza bozori</b>
+            <a href="https://yandex.uz/maps/?text=Izza%20bozori%20Toshkent" target="_blank" rel="noopener" data-t="map">Xaritada ochish</a>
+          </div>
+          <div class="addr">
+            <b data-t="a2">2-do'kon: Ibn Sino</b>
+            <a href="https://yandex.uz/maps/?text=Ibn%20Sino%20Toshkent" target="_blank" rel="noopener" data-t="map">Xaritada ochish</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© Regant Metal · <span data-t="foot">Toshkent, metall mahsulotlari</span></div>
+</footer>
+
+<nav class="bar" aria-label="Tezkor aloqa">
+  <div class="in">
+    <a class="btn btn-light" style="border:2px solid var(--steel)" href="tel:+998712002205"><svg aria-hidden="true"><use href="#i-phone"/></svg><span data-t="call">Qo'ng'iroq</span></a>
+    <a class="btn btn-main" href="https://t.me/nodir_sadikov" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tg"/></svg><span data-t="orderShort">Buyurtma</span></a>
+  </div>
+</nav>
+
+<script>
+const T = {
+  ru: {
+    badge: "лет опыта",
+    h1: "Все виды металлопроката в Ташкенте",
+    lead: "Арматура, профиль, труба, уголок и другой металлопрокат. Надёжное качество, честная цена.",
+    order: "Сделать заказ",
+    orderShort: "Заказать",
+    prodTitle: "Товары и цены",
+    prodSub: "Выберите нужный товар и нажмите кнопку «Заказать».",
+    p1: "Арматура", p2: "Профиль", p3: "Труба", p4: "Уголок",
+    priceLbl: "Цена", sum: "сум",
+    note: "Цены могут меняться. Точную цену и другие товары уточняйте по телефону или в Telegram.",
+    yearsLbl: "лет",
+    aboutTitle: "О нас",
+    aboutText: "Regant Metal уже 25 лет торгует металлопрокатом в Ташкенте. Нам доверяют строители, мастера и частные покупатели.",
+    f1: "Все виды металлопроката в одном месте",
+    f2: "Два магазина: рынок Изза и Ибн Сино",
+    f3: "Быстрый заказ по телефону или в Telegram",
+    contactTitle: "Контакты и адреса",
+    contactBox: "Свяжитесь с нами",
+    phoneLbl: "Телефон", orderLbl: "Для заказа",
+    addrTitle: "Наши магазины",
+    a1: "Магазин 1: рынок Изза", a2: "Магазин 2: Ибн Сино",
+    map: "Открыть на карте",
+    foot: "Ташкент, металлопрокат",
+    call: "Позвонить"
+  }
+};
+const els = document.querySelectorAll("[data-t]");
+els.forEach(el => { el.dataset.uz = el.textContent; });
+function setLang(lang) {
+  els.forEach(el => {
+    const v = lang === "ru" ? T.ru[el.dataset.t] : el.dataset.uz;
+    if (v) el.textContent = v;
+  });
+  document.documentElement.lang = lang;
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  try { localStorage.setItem("regant-lang", lang); } catch (e) {}
+}
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+let saved = null;
+try { saved = localStorage.getItem("regant-lang"); } catch (e) {}
+setLang(saved === "ru" ? "ru" : "uz");
+</script>
